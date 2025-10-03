@@ -1,0 +1,10 @@
+# Python / Docker / editor
+__pycache__/
+*.pyc
+.env
+.venv/
+*.tar
+dist/
+build/
+.DS_Store
+.vscode/
