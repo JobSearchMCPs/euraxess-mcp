@@ -19,6 +19,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set owner lowercased
+        id: set_owner
+        run: |
+          # GITHUB_REPOSITORY ist "owner/repo"
+          OWNER="${GITHUB_REPOSITORY%%/*}"
+          OWNER_LOWER=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')
+          echo "OWNER=$OWNER" >> $GITHUB_ENV
+          echo "OWNER_LOWER=$OWNER_LOWER" >> $GITHUB_ENV
+        # setzt env. OWNER and OWNER_LOWER for later steps
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -30,7 +40,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }} 
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v5
@@ -38,5 +48,5 @@ jobs:
           context: ./euraxess
           push: true
           tags: |
-            ghcr.io/${{ toLower(github.repository_owner) }}/euraxess-mcp:latest
-            ghcr.io/${{ toLower(github.repository_owner) }}/euraxess-mcp:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LOWER }}/euraxess-mcp:latest
+            ghcr.io/${{ env.OWNER_LOWER }}/euraxess-mcp:${{ github.sha }}
