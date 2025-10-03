@@ -2,7 +2,7 @@ version: '3.8'
 services:
   euraxess:
     build: ./euraxess
-    image: jobsearchmcps/euraxess-mcp:latest
+    image: JobSearchMCPs/euraxess-mcp:latest
     container_name: euraxess_mcp
     restart: unless-stopped
     ports:
